@@ -23,6 +23,9 @@ var streamIdRegex = regexp.MustCompile("^JETSTREAM_STREAM_(.+)$")
 var consumerIdRegex = regexp.MustCompile("^JETSTREAM_STREAM_(.+?)_CONSUMER_(.+)$")
 var kvIdRegex = regexp.MustCompile("^JETSTREAM_KV_(.+)$")
 var kvEntryIdRegex = regexp.MustCompile("^JETSTREAM_KV_(.+?)_ENTRY_(.+)$")
+var objIdRegex = regexp.MustCompile("^JETSTREAM_OBJ_(.+)$")
+var objObjectIdRegex = regexp.MustCompile("^JETSTREAM_OBJ_(.+?)_OBJECT_(.+)$")
+var bucketNameRegex = regexp.MustCompile("^[A-Za-z0-9_-]+$")
 
 func Provider() *schema.Provider {
 	return &schema.Provider{
@@ -103,10 +106,12 @@ func Provider() *schema.Provider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"jetstream_stream":    resourceStream(),
-			"jetstream_consumer":  resourceConsumer(),
-			"jetstream_kv_bucket": resourceKVBucket(),
-			"jetstream_kv_entry":  resourceKVEntry(),
+			"jetstream_stream":              resourceStream(),
+			"jetstream_consumer":            resourceConsumer(),
+			"jetstream_kv_bucket":           resourceKVBucket(),
+			"jetstream_kv_entry":            resourceKVEntry(),
+			"jetstream_object_store_bucket": resourceObjectStoreBucket(),
+			"jetstream_object_store_object": resourceObjectStoreObject(),
 		},
 
 		ConfigureFunc: connectMgr,

@@ -54,6 +54,24 @@ func parseStreamKVID(id string) (string, error) {
 	return matches[1], nil
 }
 
+func parseObjectStoreBucketID(id string) (string, error) {
+	if !objIdRegex.MatchString(id) {
+		return "", fmt.Errorf("invalid object store bucket id %q", id)
+	}
+
+	matches := objIdRegex.FindStringSubmatch(id)
+	return matches[1], nil
+}
+
+func parseObjectStoreObjectID(id string) (bucket string, name string, err error) {
+	if !objObjectIdRegex.MatchString(id) {
+		return "", "", fmt.Errorf("invalid object store object id %q", id)
+	}
+
+	matches := objObjectIdRegex.FindStringSubmatch(id)
+	return matches[1], matches[2], nil
+}
+
 func parseStreamID(id string) (string, error) {
 	if !streamIdRegex.MatchString(id) {
 		return "", fmt.Errorf("invalid stream id %q", id)
